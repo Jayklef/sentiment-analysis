@@ -1,20 +1,66 @@
-# Sentiment Classifier Project
+# Twitter Sentiment Classifier  
 
-## step 1
-We have provided some synthetic (fake, semi-randomly generated) twitter data in a csv file named project_twitter_data.csv which has the text of a tweet, the number of retweets of that tweet, and the number of replies to that tweet. We have also words that express positive sentiment and negative sentiment, in the files positive_words.txt and negative_words.txt.
+This project is a small end-to-end pipeline I built to analyze synthetic Twitter data and measure sentiment in tweets. It takes in raw tweet text with engagement metrics, processes the text to classify positivity/negativity, and then outputs structured results that can be visualized in tools like Excel or Google Sheets.  
 
-Your task is to build a sentiment classifier, which will detect how positive or negative each tweet is. You will create a csv file, which contains columns for the Number of Retweets, Number of Replies, Positive Score (which is how many happy words are in the tweet), Negative Score (which is how many angry words are in the tweet), and the Net Score for each tweet. At the end, you upload the csv file to Excel or Google Sheets, and produce a graph of the Net Score vs Number of Retweets.
+---
 
-To start, define a function called strip_punctuation which takes one parameter, a string which represents a word, and removes characters considered punctuation from everywhere in the word. (Hint: remember the .replace() method for strings.)
+## Project Overview  
+The dataset I worked with contained:  
+- **Tweet text**  
+- **Number of retweets**  
+- **Number of replies**  
 
-## step 2
-Next, define a function called get_pos which takes one parameter, a string which represents one or more sentences, and calculates how many words in the string are considered positive words. Use the list, positive_words to determine what words will count as positive. The function should return a positive integer - how many occurrences there are of positive words in the text. Note that all of the words in positive_words are lower cased, so you’ll need to convert all the words in the input string to lower case as well.
+I also had two word lists:  
+- `positive_words.txt` → a list of words expressing positive sentiment.  
+- `negative_words.txt` → a list of words expressing negative sentiment.  
 
-## step 3
-Next, define a function called get_neg which takes one parameter, a string which represents one or more sentences, and calculates how many words in the string are considered negative words. Use the list, negative_words to determine what words will count as negative. The function should return a positive integer - how many occurrences there are of negative words in the text. Note that all of the words in negative_words are lower cased, so you’ll need to convert all the words in the input string to lower case as well.
+The goal was to **score each tweet** based on how positive or negative it is and then analyze how sentiment correlates with engagement (e.g., retweets).  
 
-## Steop 4
+---
 
-Finally, write code that opens the file project_twitter_data.csv which has the fake generated twitter data (the text of a tweet, the number of retweets of that tweet, and the number of replies to that tweet). Your task is to build a sentiment classifier, which will detect how positive or negative each tweet is.
+## Steps I Took  
 
-Now, you will write code to create a csv file called resulting_data.csv, which contains the Number of Retweets, Number of Replies, Positive Score (which is how many happy words are in the tweet), Negative Score (which is how many angry words are in the tweet), and the Net Score (how positive or negative the text is overall) for each tweet. The file should have those headers in that order. Remember that there is another component to this project. You will upload the csv file to Excel or Google Sheets and produce a graph of the Net Score vs Number of Retweets. Check Coursera for that portion of the assignment, if you’re accessing this textbook from Coursera.
+### 1. Text Preprocessing  
+I started by writing a function called **`strip_punctuation`** to clean up the tweet text. This function removes punctuation marks from words so that word matching works consistently (e.g., `"happy!"` becomes `"happy"`).  
+
+### 2. Positive Word Scoring  
+I created a function **`get_pos`** that:  
+- Takes in a string of tweet text.  
+- Splits it into words, normalizes to lowercase, and compares against the `positive_words` list.  
+- Counts how many words matched and returns a **positive score**.  
+
+### 3. Negative Word Scoring  
+Similarly, I built a function **`get_neg`** that:  
+- Processes tweet text.  
+- Counts occurrences of words in the `negative_words` list.  
+- Returns a **negative score**.  
+
+### 4. Sentiment Classification & Data Export  
+Finally, I wrote the main processing loop that:  
+- Opens the input file `project_twitter_data.csv`.  
+- For each tweet, calculates:  
+  - **Positive Score**  
+  - **Negative Score**  
+  - **Net Score** = Positive Score – Negative Score  
+- Collects all results into a new CSV file called **`resulting_data.csv`**.  
+
+The output file contains the following columns:  
+
+| Number of Retweets | Number of Replies | Positive Score | Negative Score | Net Score |  
+|---------------------|------------------|----------------|----------------|-----------|  
+
+---
+
+## Visualization  
+Once the processed data was generated, I uploaded it into Google Sheets (or Excel) and built a chart of **Net Score vs Number of Retweets**. This provided a quick way to explore whether tweets with more positive sentiment tended to earn more engagement.  
+
+---
+
+## Key Takeaways  
+- Learned how to **combine text processing with data analysis**.  
+- Built a mini **sentiment classifier** from scratch using word lists.  
+- Exported results into a structured dataset and generated insights through visualization.  
+
+---
+
+✅ **End result**: A working sentiment analysis tool for tweets that outputs clean data and supports quick visualization of sentiment vs engagement.  
